@@ -1,4 +1,5 @@
 console.log('Main!');
+console.log('Hey Ofekush!')
 
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'

@@ -1,4 +1,3 @@
-
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 import { weatherService } from './services/weather.service.js'
@@ -45,6 +44,8 @@ function renderWeather(weather) {
 
 function getCoords() {
     var elValue = document.querySelector('.location-input').value;
+    console.log(elValue)
+    document.querySelector('.location-name').innerText = elValue;
     mapService.getLocationFromAPI(elValue)
         .then(res => {
             var loc = res.data.results[0].geometry.location;
@@ -79,49 +80,25 @@ function getLocationFromURL() {
 // MY LOCATION FEATURE
 document.querySelector('.my-location').addEventListener('click', (ev) => {
     locService.getPosition().then(result => {
-<<<<<<< HEAD
             const userLocation = { lat: result.coords.latitude, lng: result.coords.longitude }
             mapService.panTo(userLocation);
             mapService.addMarker(userLocation);
             mapService.geocodeLatLng(userLocation);
         })
-=======
-        const userLocation = { lat: result.coords.latitude, lng: result.coords.longitude }
-        mapService.panTo(userLocation);
-        mapService.addMarker(userLocation);
-        mapService.geocodeLatLng(userLocation);
-    })
->>>>>>> 7e0647509f0c44d73d896bfe4b14b3e1a3e37b1d
         .catch(err => console.error('There was an error locating you: ' + err))
 })
 
 document.querySelector('.copy-location').addEventListener('click', (ev) => {
-<<<<<<< HEAD
-    locService.getPosition().then(result => {
-            const userCoords = { lat: result.coords.latitude, lng: result.coords.longitude }
-            const url = document.location.href;
-            // console.log('url is: ', url);
-            var newUrl = `${url}?lat=${userCoords.lat}&lng=${userCoords.lng}`
-                // console.log('newUrl is: ', newUrl);
-            copyTextToClipboard(newUrl);
-            mapService.panTo(userCoords.lat, userCoords.lng);
-            mapService.addMarker(userCoords);
-            mapService.geocodeLatLng(userCoords);
-        })
-        .catch(err => console.error('There was an error locating you: ' + err))
-})
-=======
     const markerLocation = mapService.getMarkerLocation();
     const url = document.location.href;
     // console.log('url is: ', url);
     var newUrl = `${url}?lat=${markerLocation.lat}&lng=${markerLocation.lng}`
-    // console.log('newUrl is: ', newUrl);
+        // console.log('newUrl is: ', newUrl);
     copyTextToClipboard(newUrl);
     mapService.panTo(markerLocation.lat, markerLocation.lng);
     mapService.addMarker(markerLocation);
     mapService.geocodeLatLng(markerLocation);
 });
->>>>>>> 7e0647509f0c44d73d896bfe4b14b3e1a3e37b1d
 
 
 //copy location
@@ -152,11 +129,11 @@ function copyTextToClipboard(text) {
         return;
     }
     navigator.clipboard.writeText(text).then(
-        function () {
+        function() {
             // console.log('Async: Copying to clipboard was successful!', text);
             return text;
         },
-        function (err) {
+        function(err) {
             console.error('Async: Could not copy text: ', err);
         }
     );

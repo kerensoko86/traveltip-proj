@@ -1,33 +1,36 @@
 body {
-    background-color: #D9D0B4;
-    font-family: monospace;
+  background-color: #d9d0b4;
+  font-family: monospace;
+  margin: 0;
 }
 
-.top-container>*,
-.location-container>* {
-    font-family: monospace;
+.top-container > *,
+.location-container > * {
+  font-family: monospace;
+}
+.wrapper {
+  padding: 20px;
 }
 
 .logo {
-    color: #D9D0B4;
-    background-color: #364559;
-    top: 0;
-    padding: 10px;
-    margin-block-start: -10px;
-    margin-bottom: 20px;
+  color: #d9d0b4;
+  background-color: #364559;
+  top: 0;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .bold {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .top-container {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .location-container {
-    margin-bottom: 20px;
-    font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
 }
 
 .weather-container {
@@ -35,21 +38,20 @@ body {
 }
 
 footer {
-    bottom: 0;
-    text-align: center;
-    padding: 20px;
-    display: block;
-    color: #D9D0B4;
-    background-color: #364559
+  bottom: 0;
+  text-align: center;
+  padding: 20px;
+  display: block;
+  color: #d9d0b4;
+  background-color: #364559;
 }
-
 
 /***********helpers******/
 
 .flex {
-    display: flex;
+  display: flex;
 }
 
 .flex.space-between {
-    justify-content: space-between;
+  justify-content: space-between;
 }

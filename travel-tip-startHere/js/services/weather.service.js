@@ -7,7 +7,6 @@ export const weatherService = {
 }
 
 function connectWeather(lat, lon) {
-    const API_KEY = WEATHER_KEY;
-    return axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}`)
+    return axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&APPID=${WEATHER_KEY}`)
         .then(res => res)
 }

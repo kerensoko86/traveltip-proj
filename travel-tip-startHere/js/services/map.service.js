@@ -1,3 +1,5 @@
+import { MAP_KEY } from './.gitignore.secret.js'
+
 export const mapService = {
     initMap,
     addMarker,

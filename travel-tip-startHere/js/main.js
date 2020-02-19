@@ -36,8 +36,8 @@ window.onload = () => {
         var strHTML = `<h2>Weather Today</h2> 
         <img src="http://openweathermap.org/img/wn/${weather.data.weather[0].icon}.png"/>
         <p>${weather.data.name},${weather.data.sys.country} <img src="img/flags/24/${weather.data.sys.country}.png"/>   <span class="weather-desc">${weather.data.weather[0].main}</span></p>
-        <p>${(+weather.data.main.temp/33.8).toFixed(2)} °C</p>
-        <p>temperature from ${(+weather.data.main.temp_min/33.8).toFixed(2)} to ${(+weather.data.main.temp_max/33.8).toFixed(2)} °C,
+        <p>${((+weather.data.main.temp)-273.15).toFixed(2)} °C</p>
+        <p>temperature from ${((+weather.data.main.temp_min)-273.15).toFixed(2)} to ${((+weather.data.main.temp_max))-273.15.toFixed(2)} °C,
         wind ${+weather.data.wind.speed} m/s</p>`
         document.querySelector('.weather-container').innerHTML = strHTML;
     }
@@ -58,6 +58,7 @@ function getLocationFromURL() {
     })
     if (urlLocation.lng && urlLocation.lat) { //both values were set
         return urlLocation
+
     }
 }
 

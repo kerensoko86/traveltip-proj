@@ -143,7 +143,7 @@ function copyTextToClipboard(text) {
         function() {
             console.log('Async: Copying to clipboard was successful!', text);
             copiedUrl = text;
-            onSendUrl(copiedUrl);
+            // onSendUrl(copiedUrl);
         },
         function(err) {
             console.error('Async: Could not copy text: ', err);
@@ -151,10 +151,10 @@ function copyTextToClipboard(text) {
     );
 }
 
-function onSendUrl(copiedUrl) {
-    const url = document.location.href;
-    console.log('url is: ', url);
-    var newUrl = `${url}/?lat=${copiedUrl.lat}&long=${copiedUrl.lng}`
-    console.log('newUrl is: ', newUrl);
-    return newUrl;
-}
+// function onSendUrl(copiedUrl) {
+//     const url = document.location.href;
+//     console.log('url is: ', url);
+//     var newUrl = `${url}/?lat=${copiedUrl.lat}&long=${copiedUrl.lng}`
+//     console.log('newUrl is: ', newUrl);
+//     return newUrl;
+// }

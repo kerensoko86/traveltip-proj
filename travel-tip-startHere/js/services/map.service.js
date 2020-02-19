@@ -14,20 +14,16 @@ var infowindow;
 
 
 export function initMap(lat = 32.0749831, lng = 34.9120554) {
-    console.log('InitMap');
     return _connectGoogleApi()
         .then(() => {
-            console.log('google available');
             map = new google.maps.Map(
                 document.querySelector('#map'), {
                     center: { lat, lng },
                     zoom: 15
                 })
             map.addListener('dblclick', event => {
-                // console.log(event.latLng);
                 moveMarker(event.latLng)
             })
-            console.log('Map!', map);
         })
 }
 

@@ -23,7 +23,6 @@ window.onload = () => {
 
     locService.getPosition()
         .then(pos => {
-            console.log('User position is:', pos.coords);
             weatherService.connectWeather(pos.coords.latitude, pos.coords.longitude)
                 .then(weather => renderWeather(weather))
         })
@@ -37,7 +36,6 @@ window.onload = () => {
 }
 
 function renderWeather(weather) {
-    console.log('inside lopopo: ', weather);
     var strHTML = `<h2>Weather Today</h2> 
                 <img src="http://openweathermap.org/img/wn/${weather.weather[0].icon}.png"/>
                 <p>${weather.name},${weather.sys.country} <img src="img/flags/24/${weather.sys.country}.png"/><span class="weather-desc">${weather.weather[0].main}</span></p>
@@ -54,6 +52,7 @@ function getCoords() {
         .then(res => {
             var loc = res.data.results[0].geometry.location;
             mapService.panTo(loc);
+            mapService.addMarker(loc);
             weatherService.connectWeather(loc.lat, loc.lng)
                 .then(weather => renderWeather(weather))
         })
@@ -89,7 +88,6 @@ function getParameterByName(name, url) {
 }
 
 //set location by clicking on the map
-
 
 // MY LOCATION FEATURE
 document.querySelector('.my-location').addEventListener('click', (ev) => {
@@ -142,19 +140,14 @@ function copyTextToClipboard(text) {
     navigator.clipboard.writeText(text).then(
         function() {
             console.log('Async: Copying to clipboard was successful!', text);
-            copiedUrl = text;
-            // onSendUrl(copiedUrl);
+            const url = document.location.href;
+            console.log('url is: ', url);
+            var newUrl = `${url}/?lat=${text.lat}&long=${text.lng}`
+            console.log('newUrl is: ', newUrl);
+            return newUrl;
         },
         function(err) {
             console.error('Async: Could not copy text: ', err);
         }
     );
 }
-
-// function onSendUrl(copiedUrl) {
-//     const url = document.location.href;
-//     console.log('url is: ', url);
-//     var newUrl = `${url}/?lat=${copiedUrl.lat}&long=${copiedUrl.lng}`
-//     console.log('newUrl is: ', newUrl);
-//     return newUrl;
-// }

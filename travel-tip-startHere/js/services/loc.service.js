@@ -17,8 +17,6 @@ function getPosition() {
     })
 }
 
-
-
 export const locService = {
     getLocs: getLocs,
     getPosition: getPosition

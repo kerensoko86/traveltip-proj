@@ -4,7 +4,8 @@ export const mapService = {
     initMap,
     addMarker,
     panTo,
-    geocodeLatLng
+    geocodeLatLng,
+    getLocationFromAPI
 }
 
 var map;
@@ -79,4 +80,9 @@ function _connectGoogleApi() {
         elGoogleApi.onload = resolve;
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
+}
+
+function getLocationFromAPI(elValue) {
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${elValue}&key=${MAP_KEY}`)
+        .then(res => res)
 }

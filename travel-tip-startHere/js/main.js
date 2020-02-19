@@ -9,7 +9,6 @@ locService.getLocs()
     .then(locs => console.log('locs', locs))
 
 window.onload = () => {
-
     mapService.initMap()
         .then(() => {
             const urlLocation = getLocationFromURL();
@@ -40,8 +39,22 @@ window.onload = () => {
         <p>temperature from ${((+weather.data.main.temp_min)-273.15).toFixed(2)} to ${((+weather.data.main.temp_max))-273.15.toFixed(2)} °C,
         wind ${+weather.data.wind.speed} m/s</p>`
         document.querySelector('.weather-container').innerHTML = strHTML;
+
     }
+
 }
+var input = document.querySelector('.my-btn');
+input.addEventListener('click', getCoords);
+
+function getCoords() {
+    var elValue = document.querySelector('.location-input').value;
+    console.log(elValue);
+    mapService.getLocationFromAPI(elValue).then(res => {
+        var loc = res.data.results[0].geometry.location;
+        mapService.panTo(loc);
+    })
+}
+
 
 
 function getLocationFromURL() {

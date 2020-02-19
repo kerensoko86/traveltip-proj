@@ -18,9 +18,9 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
             console.log('google available');
             map = new google.maps.Map(
                 document.querySelector('#map'), {
-                center: { lat, lng },
-                zoom: 15
-            })
+                    center: { lat, lng },
+                    zoom: 15
+                })
             map.addListener('dblclick', event => {
                 // console.log(event.latLng);
                 moveMarker(event.latLng)
@@ -39,8 +39,6 @@ function addMarker(loc) {
     return marker;
 }
 
-
-
 function moveMarker(loc) {
     mainMarker.setPosition(loc);
 }
@@ -53,7 +51,7 @@ function panTo(loc) {
 function geocodeLatLng(loc) {
     const geocoder = new google.maps.Geocoder;
     const infowindow = new google.maps.InfoWindow;
-    geocoder.geocode({ 'location': loc }, function (results, status) {
+    geocoder.geocode({ 'location': loc }, function(results, status) {
         if (status === 'OK') {
             if (results[0]) {
                 var marker = new google.maps.Marker({

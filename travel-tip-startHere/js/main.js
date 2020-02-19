@@ -23,26 +23,26 @@ window.onload = () => {
 
     locService.getPosition()
         .then(pos => {
-
             console.log('User position is:', pos.coords);
+            weatherService.connectWeather(pos.coords.latitude, pos.coords.longitude)
+                .then(weather => renderWeather(weather))
         })
         .catch(err => {
             console.log('err!!!', err);
         })
 
-    weatherService.connectWeather(35, 139)
-        .then(weather => {
-            console.log('inside lopopo: ', weather.data);
-            var strHTML = `<h2>Weather Today</h2> 
-            <img src="http://openweathermap.org/img/wn/${weather.data.weather[0].icon}.png"/>
-            <p>${weather.data.name},${weather.data.sys.country}   <span class="weather-desc">${weather.data.weather[0].main}</span></p>
-            <p>${(+weather.data.main.temp/33.8).toFixed(2)} °C</p>
-            <p>temperature from ${(+weather.data.main.temp_min/33.8).toFixed(2)} to ${(+weather.data.main.temp_max/33.8).toFixed(2)} °C,
-            wind ${+weather.data.wind.speed} m/s</p>`
-            document.querySelector('.weather-container').innerHTML = strHTML;
-        })
-
+    function renderWeather(weather) {
+        console.log('inside lopopo: ', weather.data);
+        var strHTML = `<h2>Weather Today</h2> 
+        <img src="http://openweathermap.org/img/wn/${weather.data.weather[0].icon}.png"/>
+        <p>${weather.data.name},${weather.data.sys.country}   <span class="weather-desc">${weather.data.weather[0].main}</span></p>
+        <p>${(+weather.data.main.temp/33.8).toFixed(2)} °C</p>
+        <p>temperature from ${(+weather.data.main.temp_min/33.8).toFixed(2)} to ${(+weather.data.main.temp_max/33.8).toFixed(2)} °C,
+        wind ${+weather.data.wind.speed} m/s</p>`
+        document.querySelector('.weather-container').innerHTML = strHTML;
+    }
 }
+
 
 function getLocationFromURL() {
     const params = ['lat', 'lng'];
@@ -68,20 +68,20 @@ function getLocationFromURL() {
 // MY LOCATION FEATURE
 document.querySelector('.my-location').addEventListener('click', (ev) => {
     locService.getPosition().then(result => {
-        const userLocation = { lat: result.coords.latitude, lng: result.coords.longitude }
-        mapService.panTo(userLocation);
-        mapService.addMarker(userLocation);
-        mapService.geocodeLatLng(userLocation);
-    })
+            const userLocation = { lat: result.coords.latitude, lng: result.coords.longitude }
+            mapService.panTo(userLocation);
+            mapService.addMarker(userLocation);
+            mapService.geocodeLatLng(userLocation);
+        })
         .catch(err => console.error('There was an error locating you: ' + err))
 })
 
 document.querySelector('.copy-location').addEventListener('click', (ev) => {
     locService.getPosition().then(result => {
-        const userCoords = { lat: result.coords.latitude, lng: result.coords.longitude }
-        mapService.panTo(userCoords.lat, userCoords.lng);
-        mapService.addMarker(userCoords);
-        mapService.geocodeLatLng(userCoords);
-    })
+            const userCoords = { lat: result.coords.latitude, lng: result.coords.longitude }
+            mapService.panTo(userCoords.lat, userCoords.lng);
+            mapService.addMarker(userCoords);
+            mapService.geocodeLatLng(userCoords);
+        })
         .catch(err => console.error('There was an error locating you: ' + err))
 })

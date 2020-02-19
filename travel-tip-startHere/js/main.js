@@ -103,16 +103,16 @@ document.querySelector('.my-location').addEventListener('click', (ev) => {
 
 document.querySelector('.copy-location').addEventListener('click', (ev) => {
     locService.getPosition().then(result => {
-        const userCoords = { lat: result.coords.latitude, lng: result.coords.longitude }
-        const url = document.location.href;
-        console.log('url is: ', url);
-        var newUrl = `${url}/?lat=${userCoords.lat}&long=${userCoords.lng}`
-        console.log('newUrl is: ', newUrl);
-        copyTextToClipboard(newUrl);
-        mapService.panTo(userCoords.lat, userCoords.lng);
-        mapService.addMarker(userCoords);
-        mapService.geocodeLatLng(userCoords);
-    })
+            const userCoords = { lat: result.coords.latitude, lng: result.coords.longitude }
+            const url = document.location.href;
+            console.log('url is: ', url);
+            var newUrl = `${url}/?lat=${userCoords.lat}&long=${userCoords.lng}`
+            console.log('newUrl is: ', newUrl);
+            copyTextToClipboard(newUrl);
+            mapService.panTo(userCoords.lat, userCoords.lng);
+            mapService.addMarker(userCoords);
+            mapService.geocodeLatLng(userCoords);
+        })
         .catch(err => console.error('There was an error locating you: ' + err))
 })
 
@@ -144,26 +144,14 @@ function copyTextToClipboard(text) {
     navigator.clipboard.writeText(text).then(
         function() {
             console.log('Async: Copying to clipboard was successful!', text);
-<<<<<<< HEAD
-            const url = document.location.href;
-            console.log('url is: ', url);
-            var newUrl = `${url}/?lat=${text.lat}&long=${text.lng}`
-            console.log('newUrl is: ', newUrl);
-            return newUrl;
-=======
             // const url = document.location.href;
             // console.log('url is: ', url);
             // var newUrl = `${url}/?lat=${text.lat}&long=${text.lng}`
             // console.log('newUrl is: ', newUrl);
             return text;
->>>>>>> 9c42233d23b91ab6c5b1102697c794355edfe10c
         },
         function(err) {
             console.error('Async: Could not copy text: ', err);
         }
     );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 9c42233d23b91ab6c5b1102697c794355edfe10c

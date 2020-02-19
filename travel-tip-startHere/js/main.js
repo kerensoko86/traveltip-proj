@@ -50,6 +50,8 @@ function renderWeather(weather) {
 
 function getCoords() {
     var elValue = document.querySelector('.location-input').value;
+    console.log(elValue);
+    document.querySelector('.location-name').innerText = elValue;
     mapService.getLocationFromAPI(elValue)
         .then(res => {
             var loc = res.data.results[0].geometry.location;

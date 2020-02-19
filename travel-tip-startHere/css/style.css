@@ -8,11 +8,13 @@ body {
     font-family: monospace;
 }
 
-h1 {
+.logo {
     color: #D9D0B4;
     background-color: #364559;
     top: 0;
     padding: 10px;
+    margin-block-start: -10px;
+    margin-bottom: 20px;
 }
 
 .bold {
@@ -29,11 +31,10 @@ h1 {
 }
 
 footer {
-    position: absolute;
     bottom: 0;
     text-align: center;
     padding: 20px;
-    width: 100%;
+    display: block;
     color: #D9D0B4;
     background-color: #364559
 }

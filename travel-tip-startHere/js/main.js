@@ -30,28 +30,33 @@ window.onload = () => {
             console.log('err!!!', err);
         })
 
-    function renderWeather(weather) {
-        console.log('inside lopopo: ', weather.data);
-        var strHTML = `<h2>Weather Today</h2> 
-        <img src="http://openweathermap.org/img/wn/${weather.data.weather[0].icon}.png"/>
-        <p>${weather.data.name},${weather.data.sys.country} <img src="img/flags/24/${weather.data.sys.country}.png"/>   <span class="weather-desc">${weather.data.weather[0].main}</span></p>
-        <p>${((+weather.data.main.temp)).toFixed(2)} °C</p>
-        <p>temperature from ${(+weather.data.main.temp_min).toFixed(2)} to ${(+weather.data.main.temp_max).toFixed(2)} °C,
-        wind ${+weather.data.wind.speed} m/s</p>`
-        document.querySelector('.weather-container').innerHTML = strHTML;
-
-    }
+    var input = document.querySelector('.my-btn');
+    input.addEventListener('click', getCoords);
 
 }
-var input = document.querySelector('.my-btn');
-input.addEventListener('click', getCoords);
+
+function renderWeather(weather) {
+    console.log('inside lopopo: ', weather.data);
+    var strHTML = `<h2>Weather Today</h2> 
+                <img src="http://openweathermap.org/img/wn/${weather.data.weather[0].icon}.png"/>
+                <p>${weather.data.name},${weather.data.sys.country} <img src="img/flags/24/${weather.data.sys.country}.png"/>   <span class="weather-desc">${weather.data.weather[0].main}</span></p>
+                <p>${((+weather.data.main.temp)).toFixed(2)} °C</p>
+                <p>temperature from ${(+weather.data.main.temp_min).toFixed(2)} to ${(+weather.data.main.temp_max).toFixed(2)} °C,
+                wind ${+weather.data.wind.speed} m/s</p>`
+    document.querySelector('.weather-container').innerHTML = strHTML;
+
+}
 
 function getCoords() {
     var elValue = document.querySelector('.location-input').value;
-    mapService.getLocationFromAPI(elValue).then(res => {
-        var loc = res.data.results[0].geometry.location;
-        mapService.panTo(loc);
-    })
+    mapService.getLocationFromAPI(elValue)
+        .then(res => {
+            var loc = res.data.results[0].geometry.location;
+            mapService.panTo(loc);
+            console.log('Chennnn', loc);
+            weatherService.connectWeather(loc.lat, loc.lng)
+                .then(weather => renderWeather(weather))
+        })
 }
 
 

@@ -1,4 +1,4 @@
-import { MAP_KEY } from './.gitignore.secret.js'
+const MAP_KEY = 'AIzaSyDgPu4hpyj2FZsfka3H5LPwiu8HifWQvqA';
 
 export const mapService = {
     initMap,

@@ -9,6 +9,7 @@ export const mapService = {
 
 var map;
 var mainMarker;
+var infowindow;
 
 
 export function initMap(lat = 32.0749831, lng = 34.9120554) {
@@ -41,6 +42,7 @@ function addMarker(loc) {
 
 function moveMarker(loc) {
     mainMarker.setPosition(loc);
+    geocodeLatLng(loc);
 }
 
 function panTo(loc) {
@@ -50,21 +52,17 @@ function panTo(loc) {
 
 function geocodeLatLng(loc) {
     const geocoder = new google.maps.Geocoder;
-    const infowindow = new google.maps.InfoWindow;
+    if (!infowindow) infowindow = new google.maps.InfoWindow;
     geocoder.geocode({ 'location': loc }, function(results, status) {
         if (status === 'OK') {
             if (results[0]) {
-                var marker = new google.maps.Marker({
-                    position: loc,
-                    map: map
-                });
                 infowindow.setContent(results[0].formatted_address);
-                infowindow.open(map, marker);
+                infowindow.open(map, mainMarker);
             } else {
-                window.alert('No results found');
+                infowindow.setContent('Opps, it seems like there is nothing there!');
             }
         } else {
-            window.alert('Geocoder failed due to: ' + status);
+            infowindow.setContent('Opps, it seems like there is nothing there!');
         }
     });
 }

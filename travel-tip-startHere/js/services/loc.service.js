@@ -19,7 +19,7 @@ function getPosition() {
 
 
 
-export default {
+export const locService = {
     getLocs: getLocs,
     getPosition: getPosition
 }

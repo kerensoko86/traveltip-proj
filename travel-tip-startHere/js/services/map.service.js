@@ -8,6 +8,7 @@ export const mapService = {
 }
 
 var map;
+var mainMarker;
 
 
 export function initMap(lat = 32.0749831, lng = 34.9120554) {
@@ -20,6 +21,10 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
                 center: { lat, lng },
                 zoom: 15
             })
+            map.addListener('dblclick', event => {
+                // console.log(event.latLng);
+                moveMarker(event.latLng)
+            })
             console.log('Map!', map);
         })
 }
@@ -30,7 +35,14 @@ function addMarker(loc) {
         map: map,
         title: 'Hello World!'
     });
+    if (!mainMarker) { mainMarker = marker }
     return marker;
+}
+
+
+
+function moveMarker(loc) {
+    mainMarker.setPosition(loc);
 }
 
 function panTo(loc) {

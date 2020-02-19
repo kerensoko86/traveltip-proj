@@ -52,6 +52,10 @@ function getLocationFromURL() {
     }
 }
 
+
+//set location by clicking on the map
+
+
 // MY LOCATION FEATURE
 document.querySelector('.my-location').addEventListener('click', (ev) => {
     locService.getPosition().then(result => {

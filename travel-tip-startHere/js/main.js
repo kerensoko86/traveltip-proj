@@ -31,28 +31,32 @@ window.onload = () => {
             console.log('err!!!', err);
         })
 
-    function renderWeather(weather) {
-        console.log('inside lopopo: ', weather.data);
-        var strHTML = `<h2>Weather Today</h2> 
-        <img src="http://openweathermap.org/img/wn/${weather.data.weather[0].icon}.png"/>
-        <p>${weather.data.name},${weather.data.sys.country} <img src="img/flags/24/${weather.data.sys.country}.png"/>   <span class="weather-desc">${weather.data.weather[0].main}</span></p>
-        <p>${((+weather.data.main.temp)).toFixed(2)} °C</p>
-        <p>temperature from ${(+weather.data.main.temp_min).toFixed(2)} to ${(+weather.data.main.temp_max).toFixed(2)} °C,
-        wind ${+weather.data.wind.speed} m/s</p>`
-        document.querySelector('.weather-container').innerHTML = strHTML;
-
-    }
+    var input = document.querySelector('.my-btn');
+    input.addEventListener('click', getCoords);
 
 }
-var input = document.querySelector('.my-btn');
-input.addEventListener('click', getCoords);
+
+function renderWeather(weather) {
+    console.log('inside lopopo: ', weather);
+    var strHTML = `<h2>Weather Today</h2> 
+                <img src="http://openweathermap.org/img/wn/${weather.weather[0].icon}.png"/>
+                <p>${weather.name},${weather.sys.country} <img src="img/flags/24/${weather.sys.country}.png"/><span class="weather-desc">${weather.weather[0].main}</span></p>
+                <p>${((+weather.main.temp)).toFixed(2)} °C</p>
+                <p>temperature from ${(+weather.main.temp_min).toFixed(2)} to ${(+weather.main.temp_max).toFixed(2)} °C,
+                wind ${+weather.wind.speed} m/s</p>`
+    document.querySelector('.weather-container').innerHTML = strHTML;
+
+}
 
 function getCoords() {
     var elValue = document.querySelector('.location-input').value;
-    mapService.getLocationFromAPI(elValue).then(res => {
-        var loc = res.data.results[0].geometry.location;
-        mapService.panTo(loc);
-    })
+    mapService.getLocationFromAPI(elValue)
+        .then(res => {
+            var loc = res.data.results[0].geometry.location;
+            mapService.panTo(loc);
+            weatherService.connectWeather(loc.lat, loc.lng)
+                .then(weather => renderWeather(weather))
+        })
 }
 
 
@@ -91,11 +95,11 @@ function getParameterByName(name, url) {
 // MY LOCATION FEATURE
 document.querySelector('.my-location').addEventListener('click', (ev) => {
     locService.getPosition().then(result => {
-        const userLocation = { lat: result.coords.latitude, lng: result.coords.longitude }
-        mapService.panTo(userLocation);
-        mapService.addMarker(userLocation);
-        mapService.geocodeLatLng(userLocation);
-    })
+            const userLocation = { lat: result.coords.latitude, lng: result.coords.longitude }
+            mapService.panTo(userLocation);
+            mapService.addMarker(userLocation);
+            mapService.geocodeLatLng(userLocation);
+        })
         .catch(err => console.error('There was an error locating you: ' + err))
 })
 
@@ -107,7 +111,6 @@ document.querySelector('.copy-location').addEventListener('click', (ev) => {
         var newUrl = `${url}/?lat=${userCoords.lat}&long=${userCoords.lng}`
         console.log('newUrl is: ', newUrl);
         copyTextToClipboard(newUrl);
-        // copyTextToClipboard(JSON.stringify(userCoords));
         mapService.panTo(userCoords.lat, userCoords.lng);
         mapService.addMarker(userCoords);
         mapService.geocodeLatLng(userCoords);
@@ -141,7 +144,7 @@ function copyTextToClipboard(text) {
         return;
     }
     navigator.clipboard.writeText(text).then(
-        function () {
+        function() {
             console.log('Async: Copying to clipboard was successful!', text);
             // const url = document.location.href;
             // console.log('url is: ', url);
@@ -149,7 +152,7 @@ function copyTextToClipboard(text) {
             // console.log('newUrl is: ', newUrl);
             return text;
         },
-        function (err) {
+        function(err) {
             console.error('Async: Could not copy text: ', err);
         }
     );

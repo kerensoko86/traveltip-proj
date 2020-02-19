@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency-Calc</title>
+    <link rel="stylesheet" href="css/cc.css">
+</head>
+
+<body onload="onCallCalc()">
+    <h1>Currency-Calculator</h1>
+    <div class="calc-container">
+        <input type="text" class="input-text">
+        <select value="" name="" id="" class="currencies-from">
+        
+       </select>
+        <div class="to">to</div>
+        <select value="" name="" id="" class="currencies-to">
+   
+    </select>
+        <button class="convert" onclick="renderExchange()">Convert</button>
+        <div class="result"></div>
+
+
+    </div>
+</body>
+<script src="lib/axios.js"></script>
+<script src="js/service-cc.js"></script>
+<script src="js/main-cc.js"></script>
+
+</html>

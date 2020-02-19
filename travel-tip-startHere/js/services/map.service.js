@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-export default {
-=======
-
 export const mapService = {
->>>>>>> 5cb2eba502ce87d253d5c2fe252cd8a0ad27450c
     initMap,
     addMarker,
     panTo

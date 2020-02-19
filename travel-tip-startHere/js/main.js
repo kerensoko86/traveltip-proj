@@ -25,7 +25,11 @@ window.onload = () => {
         })
 }
 
-document.querySelector('.btn').addEventListener('click', (ev) => {
-    console.log('Aha!', ev.target);
-    mapService.panTo(35.6895, 139.6917);
+document.querySelector('.my-location').addEventListener('click', (ev) => {
+    locService.getPosition().then(result => {
+        const userCoords = { lat: result.coords.latitude, lng: result.coords.longitude }
+        mapService.panTo(userCoords.lat, userCoords.lng);
+        mapService.addMarker(userCoords);
+    })
+        .catch(err => console.error('There was an error locating you: ' + err))
 })

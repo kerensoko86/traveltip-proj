@@ -11,12 +11,15 @@
   <body>
     <div class="logo"><i class="fas fa-luggage-cart"></i> Travel Tip</div>
     <main class="wrapper">
-      <main class="main-container">
-        <div class="controls-container">
-          <input type="text" class="my-input search" placeholder="Enter Location" id="" />
-          <button class="my-btn primary search">Search</button>
-          <button class="my-location my-btn primary"><i class="fas fa-map-marker-alt"></i></button>
-          <button class="my-btn secondery copy-location" title="copy location to clipboard"><i class="fas fa-share-alt"></i></button>
+        <header class="top-container">
+            <input type="text" name="" class="location-input" placeholder="Enter Location" id="" />
+            <button class="my-btn primary go">Go</button>
+            <button class="my-location my-btn secondery">My Location</button>
+        </header>
+
+        <div class="location-container flex space-between">
+            <div class="location-name"><span class="bold">My Location:</span></div>
+            <button class="my-btn primary copy-location">Copy Location</button>
         </div>
         <div class="weather-container"></div>
       </div>
@@ -26,13 +29,16 @@
    
       </main>
 
-      <div class="location-container flex space-between">
-        <div class="location-name">
+        <div class="main-container">
+            <div class="weather-container"></div>
+            <div id="map" style="width: 100%; height: 400px;"></div>
+            <button class="btn">Click Me</button>
+        </div>
 
-      </div>
-
-      <div class="main-container"></div>
     </main>
+
+    <textarea class="js-test-textarea" cols="35" rows="4" hidden></textarea>
+
     <footer>Ofek & Keren & Yarin Ba'am</footer>
     <script src="lib/axios.js"></script>
     <script src="lib/font-awesome/js/all.js"></script>

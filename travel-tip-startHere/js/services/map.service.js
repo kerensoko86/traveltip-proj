@@ -4,7 +4,8 @@ export const mapService = {
     initMap,
     addMarker,
     panTo,
-    geocodeLatLng
+    geocodeLatLng,
+    getLocationFromAPI
 }
 
 var map;
@@ -13,20 +14,16 @@ var infowindow;
 
 
 export function initMap(lat = 32.0749831, lng = 34.9120554) {
-    console.log('InitMap');
     return _connectGoogleApi()
         .then(() => {
-            console.log('google available');
             map = new google.maps.Map(
                 document.querySelector('#map'), {
-                center: { lat, lng },
-                zoom: 15
-            })
+                    center: { lat, lng },
+                    zoom: 15
+                })
             map.addListener('dblclick', event => {
-                // console.log(event.latLng);
                 moveMarker(event.latLng)
             })
-            console.log('Map!', map);
         })
 }
 
@@ -39,8 +36,6 @@ function addMarker(loc) {
     if (!mainMarker) { mainMarker = marker }
     return marker;
 }
-
-
 
 function moveMarker(loc) {
     mainMarker.setPosition(loc);
@@ -55,7 +50,7 @@ function panTo(loc) {
 function geocodeLatLng(loc) {
     const geocoder = new google.maps.Geocoder;
     if (!infowindow) infowindow = new google.maps.InfoWindow;
-    geocoder.geocode({ 'location': loc }, function (results, status) {
+    geocoder.geocode({ 'location': loc }, function(results, status) {
         if (status === 'OK') {
             if (results[0]) {
                 infowindow.setContent(results[0].formatted_address);
@@ -81,4 +76,9 @@ function _connectGoogleApi() {
         elGoogleApi.onload = resolve;
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
+}
+
+function getLocationFromAPI(elValue) {
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${elValue}&key=${MAP_KEY}`)
+        .then(res => res)
 }

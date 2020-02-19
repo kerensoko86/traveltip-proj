@@ -74,6 +74,7 @@ function getLocationFromURL() {
     }
 }
 
+
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, '\\$&');
@@ -101,7 +102,11 @@ document.querySelector('.my-location').addEventListener('click', (ev) => {
 document.querySelector('.copy-location').addEventListener('click', (ev) => {
     locService.getPosition().then(result => {
         const userCoords = { lat: result.coords.latitude, lng: result.coords.longitude }
-        copyTextToClipboard(userCoords);
+        const url = document.location.href;
+        console.log('url is: ', url);
+        var newUrl = `${url}/?lat=${userCoords.lat}&long=${userCoords.lng}`
+        console.log('newUrl is: ', newUrl);
+        copyTextToClipboard(newUrl);
         // copyTextToClipboard(JSON.stringify(userCoords));
         mapService.panTo(userCoords.lat, userCoords.lng);
         mapService.addMarker(userCoords);
@@ -129,6 +134,7 @@ function fallbackCopyTextToClipboard(text) {
 
     document.body.removeChild(textArea);
 }
+
 function copyTextToClipboard(text) {
     if (!navigator.clipboard) {
         fallbackCopyTextToClipboard(text);
@@ -137,19 +143,14 @@ function copyTextToClipboard(text) {
     navigator.clipboard.writeText(text).then(
         function () {
             console.log('Async: Copying to clipboard was successful!', text);
-            copiedUrl = text;
-            onSendUrl(copiedUrl);
+            // const url = document.location.href;
+            // console.log('url is: ', url);
+            // var newUrl = `${url}/?lat=${text.lat}&long=${text.lng}`
+            // console.log('newUrl is: ', newUrl);
+            return text;
         },
         function (err) {
             console.error('Async: Could not copy text: ', err);
         }
     );
-}
-
-function onSendUrl(copiedUrl) {
-    const url = document.location.href;
-    console.log('url is: ', url);
-    var newUrl = `${url}/?lat=${copiedUrl.lat}&long=${copiedUrl.lng}`
-    console.log('newUrl is: ', newUrl);
-    return newUrl;
 }

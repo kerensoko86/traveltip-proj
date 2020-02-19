@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel Tip</title>
     <link rel="stylesheet" href="css/style.css" />
-</head>
+    <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.css" />
+  </head>
 
-<body>
-    <div class="logo">Travel Tip</div>
+  <body>
+    <div class="logo"><i class="fas fa-luggage-cart"></i> Travel Tip</div>
     <main class="wrapper">
         <header class="top-container">
             <input type="text" name="" class="location-input" placeholder="Enter Location" id="" />
@@ -21,6 +21,13 @@
             <div><span class="bold">Location:</span><span class="location-name"></span></div>
             <button class="my-btn primary copy-location">Copy Location</button>
         </div>
+        <div class="weather-container"></div>
+      </div>
+        <section class="map-container">
+          <div id="map" style="width: 100%; height: 400px;"></div>
+        </section>
+   
+      </main>
 
         <div class="main-container">
             <div class="weather-container"></div>
@@ -34,7 +41,7 @@
 
     <footer>Ofek & Keren & Yarin Ba'am</footer>
     <script src="lib/axios.js"></script>
+    <script src="lib/font-awesome/js/all.js"></script>
     <script type="module" src="js/main.js"></script>
-</body>
-
+  </body>
 </html>

@@ -19,22 +19,23 @@ body {
   padding: 20px;
   margin-bottom: 20px;
 }
+.main-container {
+  display: flex;
+  flex-flow: column wrap;
+}
+.map-container {
+  width: 100%;
+}
+
+.my-btn.search {
+  margin-left: 10px;
+}
+.my-btn.copy-location {
+  margin-left: 10px;
+}
 
 .bold {
   font-weight: 700;
-}
-
-.top-container {
-  margin-bottom: 20px;
-}
-
-.location-container {
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-}
-
-.weather-container {
-  border: grey 1px solid;
 }
 
 footer {
@@ -48,18 +49,32 @@ footer {
 
 /** components */
 .my-btn {
-  cursor:pointer;
-  border-radius:2px;
-  padding:6px 25px;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 6px 25px;
   box-shadow: 0px 0 1px 0px #333;
 }
-.my-btn.primary{
-    background-color: #364559;
-      color:white;
+.my-btn.primary {
+  background-color: #364559;
+  color: white;
 }
-.my-btn.secondery{
-    background-color: white;
-      color:#364559;
+.my-btn.secondery {
+  background-color: white;
+  color: #364559;
+}
+.my-input,
+.my-select {
+  border-radius: 5px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 6px 10px;
+  transition: all 0.25s;
+  text-transform: capitalize;
+}
+.my-input:focus {
+  outline: none;
+  box-shadow: inset 0 1px 2px #36455978;
 }
 
 /***********helpers******/
@@ -73,7 +88,7 @@ footer {
 }
 
 /** resseters **/
-button{
-  border:none;
-  outline:none;
+button {
+  border: none;
+  outline: none;
 }

@@ -5,9 +5,6 @@ import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 import { weatherService } from './services/weather.service.js'
 
-var copiedUrl;
-
-
 locService.getLocs()
     .then(locs => console.log('locs', locs))
 
@@ -39,8 +36,8 @@ window.onload = () => {
 
 function renderWeather(weather) {
     var strHTML = `<h2>Weather Today</h2> 
-                <img src="http://openweathermap.org/img/wn/${weather.weather[0].icon}.png"/>
-                <p>${weather.name},${weather.sys.country} <img src="img/flags/24/${weather.sys.country}.png"/><span class="weather-desc">${weather.weather[0].main}</span></p>
+    <img src="http://openweathermap.org/img/wn/${weather.weather[0].icon}.png"/>
+    <p>${weather.name},${weather.sys.country} <img src="img/flags/24/${weather.sys.country}.png"/><span class="weather-desc">${weather.weather[0].main}</span></p>
                 <p>${((+weather.main.temp)).toFixed(2)} °C</p>
                 <p>temperature from ${(+weather.main.temp_min).toFixed(2)} to ${(+weather.main.temp_max).toFixed(2)} °C,
                 wind ${+weather.wind.speed} m/s</p>`
@@ -50,8 +47,6 @@ function renderWeather(weather) {
 
 function getCoords() {
     var elValue = document.querySelector('.location-input').value;
-    console.log(elValue);
-    document.querySelector('.location-name').innerText = elValue;
     mapService.getLocationFromAPI(elValue)
         .then(res => {
             var loc = res.data.results[0].geometry.location;
@@ -81,17 +76,6 @@ function getLocationFromURL() {
     }
 }
 
-
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
-
 //set location by clicking on the map
 
 // MY LOCATION FEATURE
@@ -109,9 +93,9 @@ document.querySelector('.copy-location').addEventListener('click', (ev) => {
     locService.getPosition().then(result => {
             const userCoords = { lat: result.coords.latitude, lng: result.coords.longitude }
             const url = document.location.href;
-            console.log('url is: ', url);
-            var newUrl = `${url}/?lat=${userCoords.lat}&long=${userCoords.lng}`
-            console.log('newUrl is: ', newUrl);
+            // console.log('url is: ', url);
+            var newUrl = `${url}?lat=${userCoords.lat}&lng=${userCoords.lng}`
+                // console.log('newUrl is: ', newUrl);
             copyTextToClipboard(newUrl);
             mapService.panTo(userCoords.lat, userCoords.lng);
             mapService.addMarker(userCoords);
@@ -151,9 +135,7 @@ function copyTextToClipboard(text) {
     navigator.clipboard.writeText(text).then(
         function() {
             // console.log('Async: Copying to clipboard was successful!', text);
-            copiedUrl = text;
-            console.log(copiedUrl);
-            return copiedUrl;
+            return text;
         },
         function(err) {
             console.error('Async: Could not copy text: ', err);

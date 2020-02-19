@@ -23,6 +23,10 @@ window.onload = () => {
         .catch(err => {
             console.log('err!!!', err);
         })
+    weatherService.connectWeather(35, 139)
+        .then(res => {
+            document.querySelector('.weather-container').innerHTML = res;
+        })
 }
 
 document.querySelector('.btn').addEventListener('click', (ev) => {

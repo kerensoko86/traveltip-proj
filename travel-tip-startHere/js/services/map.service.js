@@ -5,7 +5,8 @@ export const mapService = {
     addMarker,
     panTo,
     geocodeLatLng,
-    getLocationFromAPI
+    getLocationFromAPI,
+    getMarkerLocation
 }
 
 var map;
@@ -18,9 +19,9 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
         .then(() => {
             map = new google.maps.Map(
                 document.querySelector('#map'), {
-                    center: { lat, lng },
-                    zoom: 15
-                })
+                center: { lat, lng },
+                zoom: 15
+            })
             map.addListener('dblclick', event => {
                 moveMarker(event.latLng)
             })
@@ -42,6 +43,10 @@ function moveMarker(loc) {
     geocodeLatLng(loc);
 }
 
+function getMarkerLocation() {
+    return { lat: mainMarker.position.lat(), lng: mainMarker.position.lng() }
+}
+
 function panTo(loc) {
     var laLatLng = new google.maps.LatLng(loc.lat, loc.lng);
     map.panTo(laLatLng);
@@ -50,7 +55,7 @@ function panTo(loc) {
 function geocodeLatLng(loc) {
     const geocoder = new google.maps.Geocoder;
     if (!infowindow) infowindow = new google.maps.InfoWindow;
-    geocoder.geocode({ 'location': loc }, function(results, status) {
+    geocoder.geocode({ 'location': loc }, function (results, status) {
         if (status === 'OK') {
             if (results[0]) {
                 infowindow.setContent(results[0].formatted_address);

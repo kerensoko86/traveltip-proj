@@ -34,7 +34,7 @@ body {
 }
 
 .weather-container {
-    border: grey 1px solid;
+  border: grey 1px solid;
 }
 
 footer {
@@ -46,6 +46,22 @@ footer {
   background-color: #364559;
 }
 
+/** components */
+.my-btn {
+  cursor:pointer;
+  border-radius:2px;
+  padding:6px 25px;
+  box-shadow: 0px 0 1px 0px #333;
+}
+.my-btn.primary{
+    background-color: #364559;
+      color:white;
+}
+.my-btn.secondery{
+    background-color: white;
+      color:#364559;
+}
+
 /***********helpers******/
 
 .flex {
@@ -54,4 +70,10 @@ footer {
 
 .flex.space-between {
   justify-content: space-between;
+}
+
+/** resseters **/
+button{
+  border:none;
+  outline:none;
 }

@@ -6,6 +6,7 @@ import { weatherService } from './services/weather.service.js'
 
 var copiedUrl;
 
+
 locService.getLocs()
     .then(locs => console.log('locs', locs))
 
@@ -116,6 +117,9 @@ document.querySelector('.copy-location').addEventListener('click', (ev) => {
         .catch(err => console.error('There was an error locating you: ' + err))
 })
 
+
+//copy location
+
 function fallbackCopyTextToClipboard(text) {
     var textArea = document.createElement('textarea');
     textArea.value = text;
@@ -143,12 +147,10 @@ function copyTextToClipboard(text) {
     }
     navigator.clipboard.writeText(text).then(
         function() {
-            console.log('Async: Copying to clipboard was successful!', text);
-            // const url = document.location.href;
-            // console.log('url is: ', url);
-            // var newUrl = `${url}/?lat=${text.lat}&long=${text.lng}`
-            // console.log('newUrl is: ', newUrl);
-            return text;
+            // console.log('Async: Copying to clipboard was successful!', text);
+            copiedUrl = text;
+            console.log(copiedUrl);
+            return copiedUrl;
         },
         function(err) {
             console.error('Async: Could not copy text: ', err);

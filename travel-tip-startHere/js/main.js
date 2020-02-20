@@ -1,3 +1,5 @@
+'use strict';
+
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 import { weatherService } from './services/weather.service.js'
@@ -16,10 +18,12 @@ window.onload = () => {
                 mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
         })
         .catch(err => {
-            ('INIT MAP ERROR',err)});
+            ('INIT MAP ERROR', err)
+        });
 
     locService.getPosition()
         .then(pos => {
+            console.log('User position is:', pos.coords);
             weatherService.connectWeather(pos.coords.latitude, pos.coords.longitude)
                 .then(weather => renderWeather(weather))
         })
@@ -33,9 +37,10 @@ window.onload = () => {
 }
 
 function renderWeather(weather) {
+    console.log('inside lopopo: ', weather);
     var strHTML = `<h2>Weather Today</h2> 
-    <img src="http://openweathermap.org/img/wn/${weather.weather[0].icon}.png"/>
-    <p>${weather.name},${weather.sys.country} <img src="img/flags/24/${weather.sys.country}.png"/><span class="weather-desc">${weather.weather[0].main}</span></p>
+                <img src="http://openweathermap.org/img/wn/${weather.weather[0].icon}.png"/>
+                <p>${weather.name},${weather.sys.country} <img src="img/flags/24/${weather.sys.country}.png"/><span class="weather-desc">${weather.weather[0].main}</span></p>
                 <p>${((+weather.main.temp)).toFixed(2)} °C</p>
                 <p>temperature from ${(+weather.main.temp_min).toFixed(2)} to ${(+weather.main.temp_max).toFixed(2)} °C,
                 wind ${+weather.wind.speed} m/s</p>`
@@ -45,13 +50,10 @@ function renderWeather(weather) {
 
 function getCoords() {
     var elValue = document.querySelector('.location-input').value;
-    console.log(elValue)
-    document.querySelector('.location-name').innerText = elValue;
     mapService.getLocationFromAPI(elValue)
         .then(res => {
             var loc = res.data.results[0].geometry.location;
             mapService.panTo(loc);
-            mapService.addMarker(loc);
             weatherService.connectWeather(loc.lat, loc.lng)
                 .then(weather => renderWeather(weather))
         })
@@ -76,7 +78,19 @@ function getLocationFromURL() {
     }
 }
 
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
 //set location by clicking on the map
+
 
 // MY LOCATION FEATURE
 document.querySelector('.my-location').addEventListener('click', (ev) => {
@@ -90,16 +104,19 @@ document.querySelector('.my-location').addEventListener('click', (ev) => {
 })
 
 document.querySelector('.copy-location').addEventListener('click', (ev) => {
-    const markerLocation = mapService.getMarkerLocation();
-    const url = document.location.href;
-    // console.log('url is: ', url);
-    var newUrl = `${url}?lat=${markerLocation.lat}&lng=${markerLocation.lng}`
-        // console.log('newUrl is: ', newUrl);
-    copyTextToClipboard(newUrl);
-    mapService.panTo(markerLocation.lat, markerLocation.lng);
-    mapService.addMarker(markerLocation);
-    mapService.geocodeLatLng(markerLocation);
-});
+    locService.getPosition().then(result => {
+        const userCoords = { lat: result.coords.latitude, lng: result.coords.longitude }
+        const url = document.location.href;
+        console.log('url is: ', url);
+        var newUrl = `${url}/?lat=${userCoords.lat}&long=${userCoords.lng}`
+        console.log('newUrl is: ', newUrl);
+        copyTextToClipboard(newUrl);
+        mapService.panTo(userCoords.lat, userCoords.lng);
+        mapService.addMarker(userCoords);
+        mapService.geocodeLatLng(userCoords);
+    })
+        .catch(err => console.error('There was an error locating you: ' + err))
+})
 
 
 //copy location
@@ -131,7 +148,7 @@ function copyTextToClipboard(text) {
     }
     navigator.clipboard.writeText(text).then(
         function() {
-            // console.log('Async: Copying to clipboard was successful!', text);
+            console.log('Async: Copying to clipboard was successful!', text);
             return text;
         },
         function(err) {

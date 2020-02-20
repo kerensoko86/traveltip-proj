@@ -37,7 +37,6 @@ window.onload = () => {
 }
 
 function renderWeather(weather) {
-    console.log('inside lopopo: ', weather);
     var strHTML = `<h2>Weather Today</h2> 
                 <img src="http://openweathermap.org/img/wn/${weather.weather[0].icon}.png"/>
                 <p>${weather.name},${weather.sys.country} <img src="img/flags/24/${weather.sys.country}.png"/><span class="weather-desc">${weather.weather[0].main}</span></p>
@@ -50,6 +49,7 @@ function renderWeather(weather) {
 
 function getCoords() {
     var elValue = document.querySelector('.location-input').value;
+    document.querySelector('.location-name').innerText = elValue;
     mapService.getLocationFromAPI(elValue)
         .then(res => {
             var loc = res.data.results[0].geometry.location;
@@ -78,17 +78,6 @@ function getLocationFromURL() {
     }
 }
 
-
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
-
 //set location by clicking on the map
 
 
@@ -105,16 +94,14 @@ document.querySelector('.my-location').addEventListener('click', (ev) => {
 
 document.querySelector('.copy-location').addEventListener('click', (ev) => {
     locService.getPosition().then(result => {
-        const userCoords = { lat: result.coords.latitude, lng: result.coords.longitude }
-        const url = document.location.href;
-        console.log('url is: ', url);
-        var newUrl = `${url}/?lat=${userCoords.lat}&long=${userCoords.lng}`
-        console.log('newUrl is: ', newUrl);
-        copyTextToClipboard(newUrl);
-        mapService.panTo(userCoords.lat, userCoords.lng);
-        mapService.addMarker(userCoords);
-        mapService.geocodeLatLng(userCoords);
-    })
+            const userCoords = { lat: result.coords.latitude, lng: result.coords.longitude }
+            const url = document.location.href;
+            var newUrl = `${url}/?lat=${userCoords.lat}&long=${userCoords.lng}`
+            copyTextToClipboard(newUrl);
+            mapService.panTo(userCoords.lat, userCoords.lng);
+            mapService.addMarker(userCoords);
+            mapService.geocodeLatLng(userCoords);
+        })
         .catch(err => console.error('There was an error locating you: ' + err))
 })
 

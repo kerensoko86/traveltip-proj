@@ -18,7 +18,8 @@ window.onload = () => {
         } else
         mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
     })
-    .catch(console.log('INIT MAP ERROR'));
+    .catch(err => {
+        ('INIT MAP ERROR',err)});
     
     locService.getPosition()
     .then(pos => {
